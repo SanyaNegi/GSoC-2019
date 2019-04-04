@@ -255,7 +255,7 @@ class Regressor(Estimator):
         # Add the run id to identify it in the caller.
         result['runid'] = int(self.get_runid())
 
-        logging.info("meansquare score: %.2f%%", result['accuracy'] * 100)
+        logging.info("meansquare score: %.2f%%", result['meansquare'] )
         logging.info("r2 Score: %.2f%%", result['score'] * 100)
    
 
