@@ -210,7 +210,6 @@ use Phpml\Exception\InvalidArgumentException;
 	$testloss=$msetest/$niterations;
 	$trainloss=$msetrain/$niterations;
 
-        // Let's fill the results changing the returned status code depending on the phi-related calculated metrics.
         return $this->get_evaluation_result_object_regressor($dataset, $testloss,$trainloss, $maxdeviation, $niterations);
 	
 
