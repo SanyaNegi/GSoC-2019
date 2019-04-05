@@ -41,6 +41,7 @@ class Regressor(Estimator):
 
         self.meansquare = []
         self.r2= []
+        self.variancescore=[]
  
 
         self.tensor_logdir = self.get_tensor_logdir()
@@ -271,8 +272,9 @@ class Regressor(Estimator):
         y_test = y_test.T[0]
 
         # Calculate mean square and r2
-        meansquare=mean_squared_error(y_test,y_pred)
-        r2= r2_score(y_test,y_pred)
+        meansquare = mean_squared_error(y_test,y_pred)
+        r2 = r2_score(y_test,y_pred)
+        variancescore = explained_variance_score(y_test, y_pred)
   
         self.meansquare.append(meansquare)
         self.r2.append(r2)
