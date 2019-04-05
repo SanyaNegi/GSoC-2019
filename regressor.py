@@ -278,6 +278,7 @@ class Regressor(Estimator):
   
         self.meansquare.append(meansquare)
         self.r2.append(r2)
+        self.variancescore.append(variancescore)
         
 
 
@@ -285,12 +286,11 @@ class Regressor(Estimator):
     def get_evaluation_results(self, accepted_deviation):
         """Returns the evaluation results after all iterations"""
 
-        meansquare=self.meansquare
-        r2=self.r2
-
+       
         result = dict()
         result['meansquare'] = np.mean(self.meansquare)
         result['r2'] = np.mean(self.r2)
+        result['variancescore'] = np.mean(self.variancescore]                                  
        
         result['dir'] = self.logsdir
         result['status'] = OK
