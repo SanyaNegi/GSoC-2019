@@ -272,9 +272,9 @@ class Regressor(Estimator):
         y_test = y_test.T[0]
 
         # Calculate mean square and r2
-        meansquare = mean_squared_error(y_test,y_pred)
-        r2 = r2_score(y_test,y_pred)
-        variancescore = explained_variance_score(y_test, y_pred)
+        meansquare = mean_squared_error(y_test,y_pred) #Mean squared error regression loss
+        r2 = r2_score(y_test,y_pred) #Best possible score is 1.0 and it can be negative (because the model can be arbitrarily worse). 
+        variancescore = explained_variance_score(y_test, y_pred) #Best possible score is 1.0, lower values are worse
   
         self.meansquare.append(meansquare)
         self.r2.append(r2)
