@@ -56,7 +56,8 @@ class LearningCurve(object):
 
         return filepath
     
-   class ValidationCurve(object): #Determine training and test scores for varying parameter values.
+   #Determine training and test scores for varying parameter values.
+  class ValidationCurve(object):
   
   """Class to generate a Validation curve chart through scikit-learn"""
    
