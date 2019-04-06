@@ -2,7 +2,7 @@
 
 /**
 The following methods when used with predictor methods will
-support Regression in the machine learning backend layer **/ 
+support Regression in the php machine learning backend layer **/ 
 
 namespace mlbackend_php;
 
