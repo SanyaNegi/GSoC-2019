@@ -1,4 +1,4 @@
-  """Charts module for regressor"""
+  """Charts module for regressor - IMPLEMENTED LEARNING CURVEA ND VALIDATION CURVE"""
 
 import os
 
