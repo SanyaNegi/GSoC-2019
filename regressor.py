@@ -39,9 +39,12 @@ class Regressor(Estimator):
 
         super(Regressor, self).__init__(modelid, directory)
 
-        self.meansquare = []
+        self.testloss= []
+        self.trainloss=[]
+        self.trainscore=[]
+        self.testscore=[]
         self.r2= []
-        self.variancescore=[]
+        
  
 
         self.tensor_logdir = self.get_tensor_logdir()
@@ -246,9 +249,9 @@ class Regressor(Estimator):
                                                                     test_size=0.2)
 
                 regressor = self.train(X_train, y_train)
-                y_pred=regressor.predict(x_test)
+               
                 
-                self.rate_prediction(regressor, X_test, y_test)
+                self.rate_prediction(regressor, X_test, y_test, X_train, y_train)
 
         # Return results.
         result = self.get_evaluation_results()
@@ -256,7 +259,10 @@ class Regressor(Estimator):
         # Add the run id to identify it in the caller.
         result['runid'] = int(self.get_runid())
 
-        logging.info("meansquare score: %.2f%%", result['meansquare'] )
+        logging.info("test score: %.2f%%", result['testscore'] * 100 )
+        logging.info("train score: %.2f%%", result['trainscore'] * 100 )
+        logging.info("test loss: %.2f%%", result['testloss'] )
+        logging.info("train loss: %.2f%%", result['trainloss'] )    
         logging.info("r2 Score: %.2f%%", result['score'] * 100)
    
 
@@ -265,32 +271,40 @@ class Regressor(Estimator):
     def rate_prediction(self, regressor, X_test, y_test):
         """Rate a trained regressor with test data"""
 
-        #predict 
-        y_pred = regressor.predict(X_test)
+         #predict                                  
+         y_predtest=regressor.predict(X_test)
+         y_predtrain=regressor.predict(X_train)                                  
 
         # Transform it to an array.
         y_test = y_test.T[0]
 
-        # Calculate mean square and r2
-        meansquare = mean_squared_error(y_test,y_pred) #Mean squared error regression loss
-        r2 = r2_score(y_test,y_pred) #Best possible score is 1.0 and it can be negative (because the model can be arbitrarily worse). 
-        variancescore = explained_variance_score(y_test, y_pred) #Best possible score is 1.0, lower values are worse
+        # Calculate testscore,trainscore,testloss,trainloss,r2
+        train_score=regressor.score(X_train,y_train)
+        test_score=regressor.score(X_test,y_test)                                  
+        test_loss = sklearn.metrics.mean_squared_error(y_test,y_pred) #Mean squared error regression loss
+        train_loss=sklearn.metrics.mean_squared_error(t_train,y_predtrain)#Mean squared error regression loss
+        r2 = sklearn.metrics.r2_score(y_test,y_pred) #Best possible score is 1.0 and it can be negative (because the model can be arbitrarily worse). 
+       
   
-        self.meansquare.append(meansquare)
+        self.testloss.append(test_loss)
+        self.trainloss.append(train_loss)
+        self.trainscore.appen(train_score)
+        self.testscore.append(test_score)
         self.r2.append(r2)
-        self.variancescore.append(variancescore)
-        
 
 
    
-    def get_evaluation_results(self, accepted_deviation):
+    def get_evaluation_results(self):
         """Returns the evaluation results after all iterations"""
 
        
         result = dict()
-        result['meansquare'] = np.mean(self.meansquare)
+        result['testloss'] = np.mean(self.testloss)
+        result['trainloss'] = np.mean(self.trainloss)
+        result['testscore'] = np.mean(self.testscore)
+        result['trainscore'] = np.mean(self.trainscore)
         result['r2'] = np.mean(self.r2)
-        result['variancescore'] = np.mean(self.variancescore]                                  
+                                         
        
         result['dir'] = self.logsdir
         result['status'] = OK
