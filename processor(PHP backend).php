@@ -6,7 +6,6 @@ The following methods when used with predictor methods will
 support Regression in the php machine learning backend layer **/ 
 
 
-
 namespace mlbackend_php;
 
 defined('MOODLE_INTERNAL') || die();
