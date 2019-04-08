@@ -32,7 +32,7 @@ use Phpml\Exception\InvalidArgumentException;
         if (file_exists($modelfilepath)) {
             $regressor = $modelmanager->restoreFromFile($modelfilepath);//Load an existing model or
         } else {							//create a new model
-            $regressor = new \Phpml\Regression\SVR(); 			//default type of SVR is episilon SVR
+            $regressor = new \Phpml\Regression\LeastSquares(); 			
         }
 
         $fh = $dataset->get_content_file_handle();
@@ -192,7 +192,7 @@ use Phpml\Exception\InvalidArgumentException;
 	 // Evaluate the model multiple times to confirm the results are not significantly random due to a short amount of data.
         for ($i = 0; $i < $niterations; $i++) {
 
-            $regressor = new \Phpml\Regression\SVR();
+            $regressor = new \Phpml\Regression\LeastSquares();
 
             // Split up the dataset in training and testing.
             $data = new RandomSplit(new ArrayDataset($samples, $targets), 0.2);
